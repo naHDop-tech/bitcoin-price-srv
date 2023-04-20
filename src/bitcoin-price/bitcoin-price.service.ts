@@ -16,6 +16,10 @@ export class BitcoinPriceService {
   }
 
   async getBitcoinPrice(): Promise<any> {
-    return Promise.resolve('334');
+    const result = await this.apiClient.get(this.bitcoinPriceUrlPath, {
+      params: { symbol: this.bitcoinSymbol },
+    });
+
+    return result.data;
   }
 }
