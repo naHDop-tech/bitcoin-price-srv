@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from '@root/app.controller';
 import { AppService } from '@root/app.service';
 import { AxiosApiClientModule } from '@root/clients/api/axios-api-client.module';
+import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AxiosApiClientModule } from '@root/clients/api/axios-api-client.module'
     }),
     // Modules
     AxiosApiClientModule,
+    BitcoinPriceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
