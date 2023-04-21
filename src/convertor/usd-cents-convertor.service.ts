@@ -5,7 +5,7 @@ export class UsdCentsConvertorService {
   /*
    * from full dollars to cents
    * */
-  toLowerCurrency(amount: string): number {
+  toCents(amount: string): number {
     return parseFloat(amount);
     // const intAmount = parseFloat(amount);
     // const [int] = amount.split('.');
@@ -21,7 +21,7 @@ export class UsdCentsConvertorService {
   /*
    * from cents to full dollar
    * */
-  toHigherCurrency(cents: number): string {
+  toDollars(cents: number): string {
     return String(cents);
   }
 }
