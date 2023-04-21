@@ -14,6 +14,6 @@ export class UsdCentsConvertorService {
    * */
   toString(cents: number): string {
     const [startPad, endPad] = String(cents).split('.');
-    return startPad + '.' + endPad?.padEnd(12, '0');
+    return startPad + '.' + endPad?.padEnd(8, '0');
   }
 }

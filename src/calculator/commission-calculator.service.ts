@@ -33,17 +33,19 @@ export class CommissionCalculatorService implements ICommissionCalculator {
 
     return {
       askPrice: bitcoin.askPrice,
-      commission: String(totalCommission),
+      commission: this.usdConvertorService.toString(totalCommission),
       bidPrice: bitcoin.bidPrice,
-      midRateWithCommission: midRateWithCommission,
+      midRateWithCommission: this.usdConvertorService.toString(
+        midRateWithCommission,
+      ),
     };
   }
 
   private calculateCommission(
     midRatePrice: number,
     commission: number,
-  ): string {
+  ): number {
     const comm = midRatePrice * commission;
-    return String(midRatePrice + comm);
+    return midRatePrice + comm;
   }
 }
