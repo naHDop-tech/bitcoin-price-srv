@@ -10,5 +10,6 @@ import { CommissionCalculatorModule } from '@root/calculator/commission-calculat
   imports: [ConfigModule, AxiosApiClientModule, CommissionCalculatorModule],
   providers: [BitcoinPriceService],
   controllers: [BitcoinPriceController],
+  exports: [BitcoinPriceService],
 })
 export class BitcoinPriceModule {}

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BTC price</title>
+</head>
+<body>
+<script type="module">
+  import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+  // DEV port 8008, 
+  // PROD port 80
+  window.socketB = io("http://localhost:8008/btc-ticker");
+
+  window.socketB.on("connect", () => {
+    // checking
+    console.log(window.socketB.id); // x8WIv7-mJelg7on_ALbx
+
+    const engine = window.socketB.io.engine;
+    console.log(engine.transport.name); // in most cases, prints "polling"
+
+    engine.once("upgrade", () => {
+      // called when the transport is upgraded (i.e. from HTTP long-polling to WebSocket)
+      console.log(engine.transport.name); // in most cases, prints "websocket"
+    });
+  })
+
+  window.socketB.on("btc-tick", (data) => {
+    let bidPriceEl = document.getElementById("bidPrice")
+    let askPriceEl = document.getElementById("askPrice")
+    let bidCommissionEl = document.getElementById("bidCommission")
+    let askCommissionEl = document.getElementById("askCommission")
+    bidPriceEl.innerHTML = data.bidPrice
+    askPriceEl.innerHTML = data.askPrice
+    bidCommissionEl.innerHTML = data.bidCommission
+    askCommissionEl.innerHTML = data.askCommission
+  })
+  
+</script>
+<p>Bid Price: <span id="bidPrice"></span></p>
+<p>Ask Price: <span id="askPrice"></span></p>
+<p>Bid Commission: <span id="bidCommission"></span></p>
+<p>Ask Commission: <span id="askCommission"></span></p>
+<button onclick="runTicker()">Start</button>
+<button onclick="stopTicker()">Stop</button>
+<script type="text/javascript">
+  function runTicker() {
+    console.log('START');
+    window.socketB.emit("start-btc-ticker");
+  }
+
+  function stopTicker() {
+    console.log('STOP');
+    window.socketB.emit("stop-btc-ticker");
+  }
+</script>
+</body>
+</html>
