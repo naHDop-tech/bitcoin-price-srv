@@ -30,19 +30,19 @@
   window.socketB.on("btc-tick", (data) => {
     let bidPriceEl = document.getElementById("bidPrice")
     let askPriceEl = document.getElementById("askPrice")
-    let bidCommissionEl = document.getElementById("bidCommission")
-    let askCommissionEl = document.getElementById("askCommission")
+    let commissionEl = document.getElementById("commission")
+    let midRatePriceEl = document.getElementById("midRatePrice")
     bidPriceEl.innerHTML = data.bidPrice
     askPriceEl.innerHTML = data.askPrice
-    bidCommissionEl.innerHTML = data.bidCommission
-    askCommissionEl.innerHTML = data.askCommission
+    commissionEl.innerHTML = data.commission
+    midRatePriceEl.innerHTML = data.midRateWithCommission
   })
   
 </script>
 <p>Bid Price: <span id="bidPrice"></span></p>
 <p>Ask Price: <span id="askPrice"></span></p>
-<p>Bid Commission: <span id="bidCommission"></span></p>
-<p>Ask Commission: <span id="askCommission"></span></p>
+<p>Commission: <span id="commission"></span></p>
+<p>Mid Rate With Commission: <span id="midRatePrice"></span></p>
 <button onclick="runTicker()">Start</button>
 <button onclick="stopTicker()">Stop</button>
 <script type="text/javascript">

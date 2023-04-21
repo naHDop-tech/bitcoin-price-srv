@@ -13,6 +13,7 @@ export class UsdCentsConvertorService {
    * from cents to full dollar
    * */
   toString(cents: number): string {
-    return String(cents);
+    const [startPad, endPad] = String(cents).split('.');
+    return startPad + '.' + endPad?.padEnd(12, '0');
   }
 }

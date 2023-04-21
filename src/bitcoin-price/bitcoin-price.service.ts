@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { AxiosApiClientService } from '@root/clients/api/axios-api-client.service';
-import {
-  IBitcoinPrice,
-  IBitcoinPriceWithCommission,
-} from '@root/bitcoin-price/bitcoin-price.interface';
+import { IBitcoinPrice } from '@root/bitcoin-price/bitcoin-price.interface';
 import { CommissionCalculatorService } from '@root/calculator/commission-calculator.service';
+import { ICommissionPrice } from '@root/calculator/calculator.interface';
 
 @Injectable()
 export class BitcoinPriceService {
@@ -21,24 +19,14 @@ export class BitcoinPriceService {
     this.bitcoinSymbol = configService.get<string>('BITCOIN_SYMBOL');
   }
 
-  async getBitcoinPrice(): Promise<IBitcoinPriceWithCommission> {
+  async getBitcoinPrice(): Promise<ICommissionPrice> {
     const result = await this.apiClient.get<IBitcoinPrice>(
       this.bitcoinPriceUrlPath,
       {
         params: { symbol: this.bitcoinSymbol },
       },
     );
-
-    const priceData = this.commissionService.calculate(result.data);
-
-    console.log(result.data);
-
-    return {
-      symbol: result.data.symbol,
-      askPrice: priceData.askPrice,
-      bidPrice: priceData.bidPrice,
-      askCommission: priceData.askCommission,
-      bidCommission: priceData.bidCommission,
-    };
+    console.log('tick', result.data);
+    return this.commissionService.calculate(result.data);
   }
 }
