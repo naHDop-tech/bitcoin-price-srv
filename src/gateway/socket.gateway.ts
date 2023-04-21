@@ -7,6 +7,7 @@ import {
   OnGatewayDisconnect,
   ConnectedSocket,
 } from '@nestjs/websockets';
+import { ConfigService } from '@nestjs/config';
 import { Server } from 'socket.io';
 
 import {
@@ -24,7 +25,10 @@ import { BitcoinPriceService } from '@root/bitcoin-price/bitcoin-price.service';
   namespace: 'btc-ticker',
 })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly bitcoinPriceService: BitcoinPriceService) {}
+  constructor(
+    private readonly bitcoinPriceService: BitcoinPriceService,
+    private readonly configService: ConfigService,
+  ) {}
   @WebSocketServer()
   public server: Server;
 
@@ -44,7 +48,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.leave(getUserDeviceRoom('1234', '4321'));
   }
 
-  @SubscribeMessage(TimerEvents.timerStart.toString())
+  @SubscribeMessage(TimerEvents.startBtcTicker.toString())
   startMyTimer(@ConnectedSocket() client: any, @MessageBody() body: any): void {
     // Stop any existing timer for this user device.
     stopTimerForUserDevice('1234', '4321');
@@ -55,11 +59,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       '1234',
       '4321',
       this.bitcoinPriceService,
-      5000,
+      this.configService.get<number>('UPDATE_FREQUENCY_MS'),
     );
   }
 
-  @SubscribeMessage(TimerEvents.timerStop.toString())
+  @SubscribeMessage(TimerEvents.stopBtcTicker.toString())
   stopMyTimer(@ConnectedSocket() client: any): void {
     // Stop current timer for this user device.
     stopTimerForUserDevice('1234', '4321');

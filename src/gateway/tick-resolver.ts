@@ -3,9 +3,8 @@ import { BitcoinPriceService } from '@root/bitcoin-price/bitcoin-price.service';
 
 export enum TimerEvents {
   btcTick = 'btc-tick',
-  tick = 'tick',
-  timerStart = 'timerStart',
-  timerStop = 'timerStop',
+  startBtcTicker = 'start-btc-ticker',
+  stopBtcTicker = 'stop-btc-ticker',
 }
 
 const userTimers = {};
@@ -32,11 +31,11 @@ export function startTimerForUserDevice(
   server: Server,
   userId: string,
   deviceId: string,
-  srv: BitcoinPriceService,
+  btcPriceSrv: BitcoinPriceService,
   timerDuration: number,
 ) {
   const timer = setInterval(async function () {
-    const res = await srv.getBitcoinPrice();
+    const res = await btcPriceSrv.getBitcoinPrice();
     sendToUserDevice(
       server,
       userId,
