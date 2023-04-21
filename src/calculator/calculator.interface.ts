@@ -6,9 +6,9 @@ export interface ICommissionCalculator {
 
 export interface ICommissionPrice {
   askPrice: string;
-  askCommission: string;
   bidPrice: string;
-  bidCommission: string;
+  commission: string;
+  midRateWithCommission: string;
 }
 
 export enum ICurrency {

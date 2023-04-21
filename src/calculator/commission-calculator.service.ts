@@ -10,44 +10,40 @@ import { UsdCentsConvertorService } from '@root/convertor/usd-cents-convertor.se
 
 @Injectable()
 export class CommissionCalculatorService implements ICommissionCalculator {
+  // Middle rate = (bid rate + ask rate) ÷ 2
+
+  // TODO: Do we need to avoid floating problem with adding float numbers ?
+  // TODO: 0.01 + 0.02 -> 0.3000000000004
   constructor(
     private readonly configService: ConfigService,
     private readonly usdConvertorService: UsdCentsConvertorService,
   ) {}
   calculate(bitcoin: IBitcoinPrice): ICommissionPrice {
-    const askCommission = this.configService.get<string>(
-      'BITCOIN_ASK_COMMISSION',
-    );
-    const bidCommission = this.configService.get<string>(
-      'BITCOIN_BID_COMMISSION',
+    const commission = this.configService.get<string>(
+      'BITCOIN_MIDRATE_COMMISSION',
     );
 
-    const askData = this.addingFloating(bitcoin.askPrice, askCommission);
-    const bidData = this.addingFloating(bitcoin.bidPrice, bidCommission);
+    const midRate =
+      (parseFloat(bitcoin.bidPrice) + parseFloat(bitcoin.askPrice)) / 2;
+    const midRateWithCommission = this.calculateCommission(
+      midRate,
+      parseFloat(commission),
+    );
+    const totalCommission = midRate * parseFloat(commission);
 
     return {
-      askPrice: askData.price,
-      askCommission: askData.commission,
-      bidCommission: bidData.commission,
-      bidPrice: bidData.price,
+      askPrice: bitcoin.askPrice,
+      commission: String(totalCommission),
+      bidPrice: bitcoin.bidPrice,
+      midRateWithCommission: midRateWithCommission,
     };
   }
 
-  // with avoid floating problem
-  // 0.01 + 0.02 -> 0.3000000000004
-  private addingFloating(
-    price: string,
-    commission: string,
-  ): { price: string; commission: string } {
-    const parsedPrice = this.usdConvertorService.toFloat(price);
-    const parsedCommission =
-      this.usdConvertorService.toFloat(price) *
-      this.usdConvertorService.toFloat(commission);
-    const totalPrice = (parsedPrice * 10 + parsedCommission * 10) / 10;
-
-    return {
-      price: this.usdConvertorService.toString(totalPrice),
-      commission: this.usdConvertorService.toString(parsedCommission),
-    };
+  private calculateCommission(
+    midRatePrice: number,
+    commission: number,
+  ): string {
+    const comm = midRatePrice * commission;
+    return String(midRatePrice + comm);
   }
 }
