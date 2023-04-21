@@ -7,6 +7,7 @@ $ npm install
 
 ## Running the app
 
+pure
 ```bash
 # development
 $ npm run start
@@ -16,6 +17,10 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+with docker
+```bash
+docker-compose up -d
 ```
 
 ### REST API Doc
