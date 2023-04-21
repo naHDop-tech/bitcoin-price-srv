@@ -20,13 +20,23 @@ export class BitcoinPriceService {
   }
 
   async getBitcoinPrice(): Promise<ICommissionPrice> {
-    const result = await this.apiClient.get<IBitcoinPrice>(
-      this.bitcoinPriceUrlPath,
-      {
-        params: { symbol: this.bitcoinSymbol },
-      },
-    );
-    console.log('tick', result.data);
-    return this.commissionService.calculate(result.data);
+    try {
+      const result = await this.apiClient.get<IBitcoinPrice>(
+        this.bitcoinPriceUrlPath,
+        {
+          params: { symbol: this.bitcoinSymbol },
+        },
+      );
+      return this.commissionService.calculate(result.data);
+    } catch (err) {
+      console.error(err.message);
+      return {
+        askPrice: '',
+        bidPrice: '',
+        commission: '',
+        midRateWithCommission: '',
+        symbol: '',
+      };
+    }
   }
 }

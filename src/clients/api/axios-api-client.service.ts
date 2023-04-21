@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { IApiClient, StatusCode } from '@root/clients/api/api-client.interface';
+import { IApiClient } from '@root/clients/api/api-client.interface';
 
 @Injectable()
 export class AxiosApiClientService implements IApiClient {
@@ -20,8 +20,7 @@ export class AxiosApiClientService implements IApiClient {
     instance.interceptors.response.use(
       (response) => response,
       (error) => {
-        const { response } = error;
-        return this.handleError(response);
+        return this.handleError(error);
       },
     );
 
@@ -63,27 +62,6 @@ export class AxiosApiClientService implements IApiClient {
   }
 
   private handleError(error: any) {
-    const { status } = error;
-
-    switch (status) {
-      case StatusCode.InternalServerError: {
-        console.error(error);
-        break;
-      }
-      case StatusCode.Forbidden: {
-        console.warn(error);
-        break;
-      }
-      case StatusCode.Unauthorized: {
-        console.warn(error);
-        break;
-      }
-      case StatusCode.TooManyRequests: {
-        console.warn(error);
-        break;
-      }
-    }
-
-    return Promise.reject(error);
+    return Promise.reject(error.message);
   }
 }
