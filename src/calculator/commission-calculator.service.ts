@@ -31,6 +31,7 @@ export class CommissionCalculatorService implements ICommissionCalculator {
     const totalCommission = midRate.mul(cD);
 
     return {
+      symbol: bitcoin.symbol,
       askPrice: bitcoin.askPrice,
       commission: this.usdConvertorService.toString(totalCommission.toNumber()),
       bidPrice: bitcoin.bidPrice,

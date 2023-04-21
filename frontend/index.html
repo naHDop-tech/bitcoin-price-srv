@@ -32,13 +32,16 @@
     let askPriceEl = document.getElementById("askPrice")
     let commissionEl = document.getElementById("commission")
     let midRatePriceEl = document.getElementById("midRatePrice")
+    let currencyLabelEl = document.getElementById("currency-label")
     bidPriceEl.innerHTML = data.bidPrice
     askPriceEl.innerHTML = data.askPrice
     commissionEl.innerHTML = data.commission
     midRatePriceEl.innerHTML = data.midRateWithCommission
+    currencyLabelEl.innerHTML = data.symbol
   })
   
 </script>
+<h3>Currency: <span id="currency-label"></span></h3>
 <p>Bid Price: <span id="bidPrice"></span></p>
 <p>Ask Price: <span id="askPrice"></span></p>
 <p>Commission: <span id="commission"></span></p>

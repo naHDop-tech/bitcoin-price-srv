@@ -5,6 +5,7 @@ export interface ICommissionCalculator {
 }
 
 export interface ICommissionPrice {
+  symbol: string;
   askPrice: string;
   bidPrice: string;
   commission: string;
