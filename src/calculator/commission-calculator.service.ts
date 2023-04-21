@@ -23,15 +23,12 @@ export class CommissionCalculatorService implements ICommissionCalculator {
 
     // avoid floating calculation by decimal.js lib
     // 0.01 + 0.02 -> 0.3000000000004
-    const bidDecimal = new Decimal(bitcoin.bidPrice);
-    const askDecimal = new Decimal(bitcoin.askPrice);
-    const commissionDecimal = new Decimal(commission);
-    const midRate = bidDecimal.plus(askDecimal).dividedBy(2);
-    const midRateWithCommission = this.calculateCommission(
-      midRate,
-      commissionDecimal,
-    );
-    const totalCommission = midRate.mul(commissionDecimal);
+    const bidD = new Decimal(bitcoin.bidPrice);
+    const askD = new Decimal(bitcoin.askPrice);
+    const cD = new Decimal(commission);
+    const midRate = bidD.plus(askD).dividedBy(2);
+    const midRateWithCommission = this.calculateCommission(midRate, cD);
+    const totalCommission = midRate.mul(cD);
 
     return {
       askPrice: bitcoin.askPrice,
