@@ -33,7 +33,7 @@ export class CommissionCalculatorService implements ICommissionCalculator {
     };
   }
 
-  // avoid floating problem
+  // with avoid floating problem
   // 0.01 + 0.02 -> 0.3000000000004
   private addingFloating(
     price: string,
@@ -47,7 +47,7 @@ export class CommissionCalculatorService implements ICommissionCalculator {
 
     return {
       price: this.usdConvertorService.toString(totalPrice),
-      commission: this.usdConvertorService.toString(parsedCommission)
+      commission: this.usdConvertorService.toString(parsedCommission),
     };
   }
 }
