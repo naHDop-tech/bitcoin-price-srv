@@ -5,6 +5,7 @@ import { AppController } from '@root/app.controller';
 import { AppService } from '@root/app.service';
 import { AxiosApiClientModule } from '@root/clients/api/axios-api-client.module';
 import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
+import { CommissionCalculatorModule } from '@root/calculator/commission-calculator.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
     // Modules
     AxiosApiClientModule,
     BitcoinPriceModule,
+    CommissionCalculatorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
