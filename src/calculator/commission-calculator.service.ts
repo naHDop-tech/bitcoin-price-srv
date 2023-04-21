@@ -22,21 +22,25 @@ export class CommissionCalculatorService implements ICommissionCalculator {
       'BITCOIN_BID_COMMISSION',
     );
 
-    // avoid floating problem
-    // 0.01 + 0.02 -> 0.3000000000004
-    const askPrice =
-      (this.usdConvertorService.toCents(bitcoin.askPrice) * 10 +
-        this.usdConvertorService.toCents(askCommission) * 10) /
-      10;
-    const bidPrice =
-      (this.usdConvertorService.toCents(bitcoin.bidPrice) * 10 +
-        this.usdConvertorService.toCents(bidCommission) * 10) /
-      10;
+    const askPrice = this.addingFloating(bitcoin.askPrice, askCommission);
+    const bidPrice = this.addingFloating(bitcoin.bidPrice, bidCommission);
+
     return {
-      askPrice: this.usdConvertorService.toDollars(askPrice),
+      askPrice,
       askCommission,
       bidCommission,
-      bidPrice: this.usdConvertorService.toDollars(bidPrice),
+      bidPrice,
     };
+  }
+
+  // avoid floating problem
+  // 0.01 + 0.02 -> 0.3000000000004
+  private addingFloating(price: string, commission: string): string {
+    const result =
+      (this.usdConvertorService.toFloat(price) * 10 +
+        this.usdConvertorService.toFloat(commission) * 10) /
+      10;
+
+    return this.usdConvertorService.toString(result);
   }
 }
