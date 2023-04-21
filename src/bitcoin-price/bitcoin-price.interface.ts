@@ -20,3 +20,9 @@ export interface IBitcoinPrice {
    * */
   askQty: string;
 }
+
+export interface IBitcoinPriceWithCommission
+  extends Omit<IBitcoinPrice, 'bidQty' | 'askQty'> {
+  askCommission: string;
+  bidCommission: string;
+}

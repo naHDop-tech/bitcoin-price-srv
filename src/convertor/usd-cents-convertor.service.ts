@@ -22,6 +22,6 @@ export class UsdCentsConvertorService {
    * from cents to full dollar
    * */
   toHigherCurrency(cents: number): string {
-    return String(cents / 100);
+    return String(cents);
   }
 }

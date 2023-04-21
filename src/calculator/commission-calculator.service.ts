@@ -22,18 +22,21 @@ export class CommissionCalculatorService implements ICommissionCalculator {
       'BITCOIN_BID_COMMISSION',
     );
 
-    // TODO: convert to cents
-    // TODO: calculate
-    // TODO: convert to USD
-
-    const askPrice = parseFloat(bitcoin.askPrice) - parseFloat(askCommission);
-    const bidPrice = parseFloat(bitcoin.bidPrice) - parseFloat(bidCommission);
-
+    // avoid floating problem
+    // 0.01 + 0.02 -> 0.3000000000004
+    const askPrice =
+      (this.usdConvertorService.toLowerCurrency(bitcoin.askPrice) * 10 +
+        this.usdConvertorService.toLowerCurrency(askCommission) * 10) /
+      10;
+    const bidPrice =
+      (this.usdConvertorService.toLowerCurrency(bitcoin.bidPrice) * 10 +
+        this.usdConvertorService.toLowerCurrency(bidCommission) * 10) /
+      10;
     return {
-      askPrice: String(askPrice),
+      askPrice: this.usdConvertorService.toHigherCurrency(askPrice),
       askCommission,
       bidCommission,
-      bidPrice: String(bidPrice),
+      bidPrice: this.usdConvertorService.toHigherCurrency(bidPrice),
     };
   }
 }
