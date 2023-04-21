@@ -6,10 +6,14 @@ import {
   ICommissionPrice,
 } from '@root/calculator/calculator.interface';
 import { IBitcoinPrice } from '@root/bitcoin-price/bitcoin-price.interface';
+import { UsdCentsConvertorService } from '@root/convertor/usd-cents-convertor.service';
 
 @Injectable()
 export class CommissionCalculatorService implements ICommissionCalculator {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly usdConvertorService: UsdCentsConvertorService,
+  ) {}
   calculate(bitcoin: IBitcoinPrice): ICommissionPrice {
     const askCommission = this.configService.get<string>(
       'BITCOIN_ASK_COMMISSION',

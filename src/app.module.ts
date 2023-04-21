@@ -6,6 +6,7 @@ import { AppService } from '@root/app.service';
 import { AxiosApiClientModule } from '@root/clients/api/axios-api-client.module';
 import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
 import { CommissionCalculatorModule } from '@root/calculator/commission-calculator.module';
+import { UsdCentsConvertorModule } from '@root/convertor/usd-cunts-convertor.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CommissionCalculatorModule } from '@root/calculator/commission-calculat
     AxiosApiClientModule,
     BitcoinPriceModule,
     CommissionCalculatorModule,
+    UsdCentsConvertorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
