@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Decimal } from 'decimal.js';
 
 import {
   ICommissionCalculator,
@@ -11,9 +12,6 @@ import { UsdCentsConvertorService } from '@root/convertor/usd-cents-convertor.se
 @Injectable()
 export class CommissionCalculatorService implements ICommissionCalculator {
   // Middle rate = (bid rate + ask rate) ÷ 2
-
-  // TODO: Do we need to avoid floating problem with adding float numbers ?
-  // TODO: 0.01 + 0.02 -> 0.3000000000004
   constructor(
     private readonly configService: ConfigService,
     private readonly usdConvertorService: UsdCentsConvertorService,
@@ -23,29 +21,30 @@ export class CommissionCalculatorService implements ICommissionCalculator {
       'BITCOIN_MIDRATE_COMMISSION',
     );
 
-    const midRate =
-      (parseFloat(bitcoin.bidPrice) + parseFloat(bitcoin.askPrice)) / 2;
-    const midRateWithCommission = this.calculateCommission(
-      midRate,
-      parseFloat(commission),
-    );
-    const totalCommission = midRate * parseFloat(commission);
+    // avoid floating calculation by decimal.js lib
+    // 0.01 + 0.02 -> 0.3000000000004
+    const bidD = new Decimal(bitcoin.bidPrice);
+    const askD = new Decimal(bitcoin.askPrice);
+    const cD = new Decimal(commission);
+    const midRate = bidD.plus(askD).dividedBy(2);
+    const midRateWithCommission = this.calculateCommission(midRate, cD);
+    const totalCommission = midRate.mul(cD);
 
     return {
       askPrice: bitcoin.askPrice,
-      commission: this.usdConvertorService.toString(totalCommission),
+      commission: this.usdConvertorService.toString(totalCommission.toNumber()),
       bidPrice: bitcoin.bidPrice,
       midRateWithCommission: this.usdConvertorService.toString(
-        midRateWithCommission,
+        midRateWithCommission.toNumber(),
       ),
     };
   }
 
   private calculateCommission(
-    midRatePrice: number,
-    commission: number,
-  ): number {
-    const comm = midRatePrice * commission;
-    return midRatePrice + comm;
+    midRatePrice: Decimal,
+    commission: Decimal,
+  ): Decimal {
+    const comm = midRatePrice.mul(commission);
+    return midRatePrice.plus(comm);
   }
 }
