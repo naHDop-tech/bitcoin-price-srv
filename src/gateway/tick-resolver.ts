@@ -14,7 +14,7 @@ const userTimers = {};
 //   "user003-device:003":Timeout {/* data of timer3 */}
 // }
 export function getUserDeviceRoom(userId: string, deviceId: string) {
-  return `user:${userId}-device:${deviceId}`;
+  return userId + deviceId;
 }
 
 export function sendToUserDevice(
@@ -51,6 +51,8 @@ export function startTimerForUserDevice(
 }
 
 export function stopTimerForUserDevice(userId: string, deviceId: string) {
+  console.log('GET', userId, deviceId);
+  console.log('MAP', userTimers);
   clearInterval(userTimers[userId + deviceId]); // Stop the timer for this user device.
 
   delete userTimers[userId + deviceId]; // Delete the timer for this user device from the `userTimers` object.

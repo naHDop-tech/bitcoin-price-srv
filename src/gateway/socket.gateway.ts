@@ -32,40 +32,32 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   public server: Server;
 
-  handleConnection(@ConnectedSocket() client: any) {
-    // console.log(
-    //   `user ${client.user.id} with socket ${client.id} connected with device ${client.handshake?.query?.deviceId}`,
-    // );
-
-    client.join(getUserDeviceRoom('1234', '4321'));
+  handleConnection(@ConnectedSocket() socket: any) {
+    socket.join(getUserDeviceRoom(socket.id, socket.client.conn.id));
   }
 
-  handleDisconnect(@ConnectedSocket() client: any) {
-    // console.log(
-    //   `user ${client.user.id} with socket ${client.id} with device ${client.handshake?.query?.deviceId} DISCONNECTED`,
-    // );
-
-    client.leave(getUserDeviceRoom('1234', '4321'));
+  handleDisconnect(@ConnectedSocket() socket: any) {
+    stopTimerForUserDevice(socket.id, socket.client.conn.id);
+    socket.leave(getUserDeviceRoom(socket.id, socket.client.conn.id));
   }
 
   @SubscribeMessage(TimerEvents.startBtcTicker.toString())
-  startMyTimer(@ConnectedSocket() client: any, @MessageBody() body: any): void {
+  startMyTimer(@ConnectedSocket() socket: any, @MessageBody() body: any): void {
     // Stop any existing timer for this user device.
-    stopTimerForUserDevice('1234', '4321');
+    stopTimerForUserDevice(socket.id, socket.client.conn.id);
 
     // Start a new timer for this user device.
     startTimerForUserDevice(
       this.server,
-      '1234',
-      '4321',
+      socket.id,
+      socket.client.conn.id,
       this.bitcoinPriceService,
       this.configService.get<number>('UPDATE_FREQUENCY_MS'),
     );
   }
 
   @SubscribeMessage(TimerEvents.stopBtcTicker.toString())
-  stopMyTimer(@ConnectedSocket() client: any): void {
-    // Stop current timer for this user device.
-    stopTimerForUserDevice('1234', '4321');
+  stopMyTimer(@ConnectedSocket() socket: any): void {
+    stopTimerForUserDevice(socket.id, socket.client.conn.id);
   }
 }
