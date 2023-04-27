@@ -49,7 +49,10 @@ async function createDbConnection(
   return db;
 }
 
-async function prepareDbData(db: sqlite3Lib.Database, id: string) {
+async function prepareDbData(
+  db: sqlite3Lib.Database,
+  id: string,
+): Promise<void> {
   try {
     const isExists = await selectBitcoinRows(db, id);
     console.log('DATA', isExists.data);
@@ -62,7 +65,7 @@ async function prepareDbData(db: sqlite3Lib.Database, id: string) {
   }
 }
 
-function createBitcoinTable(db: sqlite3Lib.Database) {
+function createBitcoinTable(db: sqlite3Lib.Database): void {
   db.exec(`
      CREATE TABLE IF NOT EXISTS bitcoin
         (
@@ -95,14 +98,14 @@ function insertBitcoinRow(
 function selectBitcoinRows(
   db,
   id: string,
-): Promise<{ error: string; data: any }> {
+): Promise<{ error: Error; data: any }> {
   return new Promise((resolve, reject) => {
     db.get(
       `SELECT * FROM bitcoin WHERE symbol = ?`,
       [id],
       function (error, row) {
         if (error) {
-          reject({ error: error.message, data: null });
+          reject({ error: error, data: null });
         }
         resolve({ data: row, error: null });
       },
@@ -115,16 +118,16 @@ function updateRow(
   bidPrice: string,
   askPrice: string,
   id: string,
-) {
+): Promise<{ error: Error; data: any }> {
   return new Promise((resolve, reject) => {
     db.run(
       'UPDATE bitcoin SET bid_price = ?, ask_price = ? WHERE symbol = ?',
       [bidPrice, askPrice, id],
       function (error) {
         if (error) {
-          reject({ error: error });
+          reject({ error: error, data: null });
         }
-        resolve({ data: this.lastID });
+        resolve({ data: this.lastID, error: null });
       },
     );
   });
