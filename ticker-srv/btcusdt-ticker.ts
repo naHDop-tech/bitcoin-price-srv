@@ -52,6 +52,7 @@ async function createDbConnection(
 async function prepareDbData(db: sqlite3Lib.Database, id: string) {
   try {
     const isExists = await selectBitcoinRows(db, id);
+    console.log('DATA', isExists.data);
     if (!isExists.data) {
       // TODO: get true price
       await insertBitcoinRow(db, id, '1', '1');

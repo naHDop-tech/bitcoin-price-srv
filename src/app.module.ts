@@ -9,6 +9,7 @@ import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
 import { CommissionCalculatorModule } from '@root/calculator/commission-calculator.module';
 import { UsdCentsConvertorModule } from '@root/convertor/usd-cunts-convertor.module';
 import { BitcoinEntity } from '@root/bitcoin/bitcoin.entity';
+import { BitcoinModule } from '@root/bitcoin/bitcoin.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { BitcoinEntity } from '@root/bitcoin/bitcoin.entity';
     BitcoinPriceModule,
     CommissionCalculatorModule,
     UsdCentsConvertorModule,
+    BitcoinModule,
   ],
   controllers: [AppController],
   providers: [AppService],
