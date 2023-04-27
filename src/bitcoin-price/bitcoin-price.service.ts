@@ -20,7 +20,6 @@ export class BitcoinPriceService {
       return {
         askPrice: '',
         bidPrice: '',
-        commission: '',
         midRateWithCommission: '',
         symbol: '',
       };
