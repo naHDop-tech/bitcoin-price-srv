@@ -16,13 +16,9 @@ export class BitcoinService {
     this.bitcoinSymbol = configService.get<string>('BITCOIN_SYMBOL');
   }
 
-  async getPriceInfo(): Promise<BitcoinEntity> {
-    const foo = await this.repository.findOne({
+  getPriceInfo(): Promise<BitcoinEntity> {
+    return this.repository.findOne({
       where: { symbol: this.bitcoinSymbol.toLowerCase() },
     });
-
-    console.log('PR', foo, this.bitcoinSymbol.toLowerCase());
-
-    return foo;
   }
 }
