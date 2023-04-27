@@ -9,17 +9,10 @@ $ npm install
 
 pure
 ```bash
-$ npm run start
-
-$ npm run start:dev
-
-$ npm run start:prod
+$ npm install
+$ npm run run:dev
 ```
 
-open another terminal and run ticker service
-```bash
-$ npm run ticker:dev
-```
 ## With docker
 ```bash
 $ docker-compose up -d
