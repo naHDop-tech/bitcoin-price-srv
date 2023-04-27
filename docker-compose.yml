@@ -1,5 +1,13 @@
 version: "3"
 services:
+  ticker-srv:
+    container_name: 'ticker-srv'
+    build:
+      context: ./
+      dockerfile: Dockerfile.ticker
+    env_file:
+      - .env.prod
+
   nestjs-api:
     container_name: 'bitcoin-price-srv'
     build:

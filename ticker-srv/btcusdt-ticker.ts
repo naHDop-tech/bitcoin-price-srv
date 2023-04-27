@@ -67,8 +67,8 @@ function createBitcoinTable(db: sqlite3Lib.Database) {
         (
           id        INTEGER PRIMARY KEY AUTOINCREMENT,
           symbol    VARCHAR(50) NOT NULL,
-          bidPrice  VARCHAR(50) NOT NULL,
-          askPrice  VARCHAR(50) NOT NULL
+          bid_price  VARCHAR(50) NOT NULL,
+          ask_price  VARCHAR(50) NOT NULL
         );
    `);
 }
@@ -80,7 +80,7 @@ function insertBitcoinRow(
   askPrice: string,
 ) {
   db.run(
-    `INSERT INTO bitcoin (symbol, bidPrice, askPrice) VALUES (?, ?, ?)`,
+    `INSERT INTO bitcoin (symbol, bid_price, ask_price) VALUES (?, ?, ?)`,
     [symbol, bidPrice, askPrice],
     function (error) {
       if (error) {
@@ -117,7 +117,7 @@ function updateRow(
 ) {
   return new Promise((resolve, reject) => {
     db.run(
-      'UPDATE bitcoin SET bidPrice = ?, askPrice = ? WHERE symbol = ?',
+      'UPDATE bitcoin SET bid_price = ?, ask_price = ? WHERE symbol = ?',
       [bidPrice, askPrice, id],
       function (error) {
         if (error) {

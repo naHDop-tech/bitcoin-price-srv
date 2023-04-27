@@ -8,6 +8,7 @@ import { AxiosApiClientModule } from '@root/clients/api/axios-api-client.module'
 import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
 import { CommissionCalculatorModule } from '@root/calculator/commission-calculator.module';
 import { UsdCentsConvertorModule } from '@root/convertor/usd-cunts-convertor.module';
+import { BitcoinEntity } from '@root/bitcoin/bitcoin.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { UsdCentsConvertorModule } from '@root/convertor/usd-cunts-convertor.mod
         return {
           type: 'sqlite',
           database: config.get<string>('DB_NAME'),
-          entities: [],
+          entities: [BitcoinEntity],
           synchronize: true,
         };
       },
