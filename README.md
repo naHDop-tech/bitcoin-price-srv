@@ -23,6 +23,9 @@ $ docker-compose up -d
 Postman collection for GET single request
 `./doc/BTC.postman_collection.json`
 
+SSE client example
+`./doc/sse.md`
+
 ### Architecture schema
 
 `./doc/btcusdt-ticker-arhitech-schema.drawio.png`
