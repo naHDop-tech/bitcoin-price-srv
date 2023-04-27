@@ -18,7 +18,7 @@ export class BitcoinPriceController {
     return this.bitcoinPriceService.getBitcoinPrice();
   }
 
-  @Sse('/btcusdt-price')
+  @Sse('/btcusdt-sse')
   priceChannel(): Observable<any> {
     const updateFrequency = this.configService.get<number>(
       'UPDATE_FREQUENCY_MS',
