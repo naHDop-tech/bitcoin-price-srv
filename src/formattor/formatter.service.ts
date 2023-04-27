@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class UsdCentsConvertorService {
+export class FormatterService {
   /*
-   * from cents to full dollar
+   * to string with zeros pad
    * */
   toString(cents: number): string {
     const [startPad, endPad] = String(cents).split('.');

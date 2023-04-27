@@ -7,7 +7,7 @@ import { AppService } from '@root/app.service';
 import { AxiosApiClientModule } from '@root/clients/api/axios-api-client.module';
 import { BitcoinPriceModule } from '@root/bitcoin-price/bitcoin-price.module';
 import { CommissionCalculatorModule } from '@root/calculator/commission-calculator.module';
-import { UsdCentsConvertorModule } from '@root/convertor/usd-cunts-convertor.module';
+import { FormatterModule } from '@root/formattor/formatter.module';
 import { BitcoinEntity } from '@root/bitcoin/bitcoin.entity';
 import { BitcoinModule } from '@root/bitcoin/bitcoin.module';
 
@@ -34,7 +34,7 @@ import { BitcoinModule } from '@root/bitcoin/bitcoin.module';
     AxiosApiClientModule,
     BitcoinPriceModule,
     CommissionCalculatorModule,
-    UsdCentsConvertorModule,
+    FormatterModule,
     BitcoinModule,
   ],
   controllers: [AppController],
