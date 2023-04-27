@@ -13,12 +13,12 @@ export class BitcoinPriceController {
     private readonly configService: ConfigService,
   ) {}
 
-  @Get('/bitcoin-price')
+  @Get('/current-price')
   getBitcoinPrice(): Promise<ICommissionPrice> {
     return this.bitcoinPriceService.getBitcoinPrice();
   }
 
-  @Sse('/broadcast')
+  @Sse('/btcustd-price')
   priceChannel(): Observable<any> {
     const updateFrequency = this.configService.get<number>(
       'UPDATE_FREQUENCY_MS',
