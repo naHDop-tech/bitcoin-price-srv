@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-COPY --chown=node:node . .
+COPY . .
 RUN npm run build \
     && npm prune --production
 
@@ -21,9 +21,6 @@ ENV NODE_ENV prod
 USER node
 WORKDIR /app
 
-COPY --from=builder --chown=node:node /app/package*.json .
-COPY --from=builder --chown=node:node /app/node_modules/ .
-COPY --from=builder --chown=node:node /app/dist/ .
-COPY --from=builder --chown=node:node /app/btc-usdt-ticker.sqlite .
+COPY --from=builder . .
 
 CMD ["npm", "run", "start:prod"]

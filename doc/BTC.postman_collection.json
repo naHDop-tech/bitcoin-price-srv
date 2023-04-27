@@ -7,12 +7,12 @@
 	},
 	"item": [
 		{
-			"name": "BTC",
+			"name": "SSE btc/usdt price ticker",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8008/api/v0/bitcoin-price",
+					"raw": "http://localhost:8008/api/v0/btcusdt-sse",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -21,7 +21,28 @@
 					"path": [
 						"api",
 						"v0",
-						"bitcoin-price"
+						"btcusdt-sse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current btc/usdt price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8008/api/v0/current-price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"v0",
+						"current-price"
 					]
 				}
 			},

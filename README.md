@@ -9,18 +9,20 @@ $ npm install
 
 pure
 ```bash
-# development
 $ npm run start
 
-# watch mode
 $ npm run start:dev
 
-# production mode
 $ npm run start:prod
 ```
-with docker
+
+open another terminal and run ticker service
 ```bash
-docker-compose up -d
+$ npm run ticker:dev
+```
+## With docker
+```bash
+$ docker-compose up -d
 ```
 
 ### REST API Doc
@@ -28,6 +30,6 @@ docker-compose up -d
 Postman collection for GET single request
 `./doc/BTC.postman_collection.json`
 
-### Socket Documentation
-Description for socket client
-`./doc/SIO.md`
+### Architecture schema
+
+`./doc/btcusdt-ticker-arhitech-schema.drawio.png`
