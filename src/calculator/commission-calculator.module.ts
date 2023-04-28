@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CommissionCalculatorService } from '@root/calculator/commission-calculator.service';
-import { UsdCentsConvertorModule } from '@root/convertor/usd-cunts-convertor.module';
+import { FormatterModule } from '@root/formattor/formatter.module';
 
 @Module({
-  imports: [ConfigModule, UsdCentsConvertorModule],
+  imports: [ConfigModule, FormatterModule],
   providers: [CommissionCalculatorService],
   exports: [CommissionCalculatorService],
 })

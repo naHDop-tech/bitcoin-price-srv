@@ -9,18 +9,13 @@ $ npm install
 
 pure
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ npm install
+$ npm run run:dev
 ```
-with docker
+
+## With docker
 ```bash
-docker-compose up -d
+$ docker-compose up -d
 ```
 
 ### REST API Doc
@@ -28,6 +23,9 @@ docker-compose up -d
 Postman collection for GET single request
 `./doc/BTC.postman_collection.json`
 
-### Socket Documentation
-Description for socket client
-`./doc/SIO.md`
+SSE client example
+`./doc/sse.md`
+
+### Architecture schema
+
+`./doc/btcusdt-ticker-arhitech-schema.drawio.png`

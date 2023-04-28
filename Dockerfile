@@ -21,8 +21,12 @@ ENV NODE_ENV prod
 USER node
 WORKDIR /home/node
 
+RUN npm i concurrently
+
 COPY --from=builder --chown=node:node /home/node/package*.json ./
 COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
-COPY --from=builder --chown=node:node /home/node/dist/ ./dist/
+COPY --from=builder --chown=node:node /home/node/dist/src/ ./dist/src
+COPY --from=builder --chown=node:node /home/node/dist/ticker-srv/ ./dist/ticker-srv
+COPY --from=builder --chown=node:node /home/node/btc-usdt-ticker.sqlite ./
 
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "run:prod"]

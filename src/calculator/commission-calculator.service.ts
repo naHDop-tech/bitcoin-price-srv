@@ -7,14 +7,14 @@ import {
   ICommissionPrice,
 } from '@root/calculator/calculator.interface';
 import { IBitcoinPrice } from '@root/bitcoin-price/bitcoin-price.interface';
-import { UsdCentsConvertorService } from '@root/convertor/usd-cents-convertor.service';
+import { FormatterService } from '@root/formattor/formatter.service';
 
 @Injectable()
 export class CommissionCalculatorService implements ICommissionCalculator {
   // Middle rate = (bid rate + ask rate) ÷ 2
   constructor(
     private readonly configService: ConfigService,
-    private readonly usdConvertorService: UsdCentsConvertorService,
+    private readonly usdConvertorService: FormatterService,
   ) {}
   calculate(bitcoin: IBitcoinPrice): ICommissionPrice {
     const commission = this.configService.get<string>(
@@ -26,26 +26,26 @@ export class CommissionCalculatorService implements ICommissionCalculator {
     const bidD = new Decimal(bitcoin.bidPrice);
     const askD = new Decimal(bitcoin.askPrice);
     const cD = new Decimal(commission);
-    const midRate = bidD.plus(askD).dividedBy(2);
-    const midRateWithCommission = this.calculateCommission(midRate, cD);
-    const totalCommission = midRate.mul(cD);
+
+    // Commission to bid
+    const bidDWithCom = this.getPriceWithCommission(bidD, cD);
+    // commission to ask
+    const askDWithCom = this.getPriceWithCommission(askD, cD);
+    // mid rate
+    const midRateWithComm = bidDWithCom.plus(askDWithCom).dividedBy(2);
 
     return {
       symbol: bitcoin.symbol,
       askPrice: bitcoin.askPrice,
-      commission: this.usdConvertorService.toString(totalCommission.toNumber()),
       bidPrice: bitcoin.bidPrice,
       midRateWithCommission: this.usdConvertorService.toString(
-        midRateWithCommission.toNumber(),
+        midRateWithComm.toNumber(),
       ),
     };
   }
 
-  private calculateCommission(
-    midRatePrice: Decimal,
-    commission: Decimal,
-  ): Decimal {
-    const comm = midRatePrice.mul(commission);
-    return midRatePrice.plus(comm);
+  getPriceWithCommission(price: Decimal, commission: Decimal): Decimal {
+    const comm = price.mul(commission);
+    return price.plus(comm);
   }
 }
